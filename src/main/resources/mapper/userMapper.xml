@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.library_management.mapper.UserMapper">
+    <!-- 회원가입 -->
+    <insert id="insertUser">
+        insert into tbl_user
+        (user_identification, user_password)
+        values(#{userIdentification}, #{userPassword})
+    </insert>
+
+    <!-- 아이디 중복검사-->
+    <select id="selectByIdentification" parameterType="String" resultType="Long">
+        select count(user_identification) from tbl_user
+        where user_identification = #{userIdentification}
+    </select>
+    
+    <!-- 로그인 -->
+    <select id="selectByUserIdAndUserPassword" resultType="Long">
+        select id from tbl_user
+        where user_identification = #{userIdentification} and user_password = #{userPassword}
+    </select>
+</mapper>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인화면</title>
+    <link rel="stylesheet" href="">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .content {
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 300px;
+            border: 1px solid;
+            padding: 30px;
+        }
+
+        .login {
+            display: flex;
+            margin: 10px 0 10px 0;
+        }
+
+        .first-line {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="nav">
+                <form action="" name="redirectForm" method="get">
+                    <button class="btn_joinPage" type="button">회원가입</button>
+                    <button class="btn_loginPage" type="button">로그인</button>
+                    <button class="btn_libraryManagement" type="button">도서관리</button>
+                    <button class="btn_registerBook" type="button">도서등록</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+    const $btnJoinPage = $(".btn_joinPage");
+    const $btn_loginPage = $(".btn_loginPage")
+    const $btnRegisterBookPage = $(".btn_registerBook");
+    const $btnLibraryManagementPage = $(".btn_libraryManagement");
+
+    $btnJoinPage.on("click", function() {
+        $(document.redirectForm).attr("action", "/user/join");
+        $(document.redirectForm).submit();
+    });
+
+    $btn_loginPage.on("click", function() {
+        $(document.redirectForm).attr("action", "/user/login");
+        $(document.redirectForm).submit();
+    });
+
+    $btnRegisterBookPage.on("click", function() {
+        $(document.redirectForm).attr("action", "/book/register");
+        $(document.redirectForm).submit();
+    });
+
+    $btnLibraryManagementPage.on("click", function() {
+        $(document.redirectForm).attr("action", "/user/join");
+        $(document.redirectForm).submit();
+    });
+</script>
+</html>

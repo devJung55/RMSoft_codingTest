@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <form action="" name="joinForm" method="post" th:object="${userDTO}">
+        <div class="wrap">
+            <input type="type" placeholder="아이디를 입력해주세요." name="userIdentification"
+                   class="form-input-writeIdentification" th:field="*{userIdentification}">
+            <button type="button" class="check-identification">중복확인</button>
+        </div>
+        <div>
+            <input type="password" placeholder="비밀번호를 입력해주세요." name="userPassword"
+                   class="form-input-writePassword" th:field="*{userPassword}">
+        </div>
+        <button type="button" class="joinBtn">회원가입</button>
+    </form>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+    const $checkIdentification = $(".check-identification");
+    const $joinBtn = $(".joinBtn");
+    globalThis.check = false;
+
+    $joinBtn.on("click", function() {   /* 회원가입 완료 클릭이벤트 */
+        if(globalThis.check == true) {
+            $(document.joinForm).submit();
+        }
+    });
+
+    $checkIdentification.on("click", function() {   /* 중복검사 클릭이벤트*/
+        checkIdentification();
+    });
+
+    function checkIdentification() {    /* 아이디 중복검사 ajax 함수 */
+        let userIdentification = $("input[type=type]").val();
+
+
+        $.ajax({
+            url: "/users/checkIdentification",
+            type: "post",
+            data: {"userIdentification": userIdentification},
+            success: function(result) {
+                if(result == 1) {
+                    globalThis.check = false;
+                    alert("중복된 아이디가 존재합니다.");
+                } else {
+                    alert("사용가능한 아이디입니다.");
+                    globalThis.check = true;
+                }
+            }
+        });
+        return check;
+    }
+</script>
+</html>

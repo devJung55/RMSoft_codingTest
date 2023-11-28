@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.library_management.mapper.BookMapper">
+    <insert id="insertBook">
+        insert into tbl_book
+        (book_title, book_author, book_publisher)
+        values(#{bookTitle}, #{bookAuthor}, #{bookPublisher})
+    </insert>
+
+    <update id="updateBookStatus" parameterType="map">
+        update tbl_book
+        set book_status = #{bookStatus}
+        where id = #{id}
+    </update>
+
+    <select id="selectByBookId" resultType="bookVO">
+        select book_title, book_author, book_publisher
+        from tbl_book where id = #{bookId}
+    </select>
+
+    <update id="updateBtBookId">
+        update tbl_book
+        set book_title = #{bookTitle}, book_author = #{bookAuthor}, book_publisher = #{bookPublisher}
+        where id = #{id}
+    </update>
+</mapper>

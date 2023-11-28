@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서등록</title>
+    <link rel="stylesheet" href="/css/user/join.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 400px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .select-box {
+            margin-bottom: 20px;
+        }
+
+        .select-box > div {
+            margin-bottom: 10px;
+        }
+
+        .select-box input[type="text"] {
+            width: 70%;
+            padding: 5px;
+        }
+
+        .select-box button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .first-line,
+        .second-line {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .second-line input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 5px;
+        }
+
+        .button-box button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+                <div class="select-box">
+                    <div>책 ID</div>
+                    <div>
+                        <input type="text" class="book_id">
+                        <button type="button" class="search-button">검색</button>
+                    </div>
+                </div>
+                <div class="append">
+                    <form action="" method="post" th:object="${bookDTO}">
+                        <div class="first-line">
+                            <div>제목</div>
+                            <div>저자</div>
+                            <div>출판사</div>
+                        </div>
+                        <div class="second-line">
+                            <div>
+                                <input type="text" class="book-title" th:field="*{bookTitle}">
+                            </div>
+                            <div>
+                                <input type="text" class="book-author" th:field="*{bookAuthor}">
+                            </div>
+                            <div>
+                                <input type="text" class="book-publisher" th:field="*{bookPublisher}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="button-box">
+                    <button type="button" class="register-button">등록</button>
+                    <button type="button" class="update-button">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+    const $append = $(".append");
+    const $btnSearch = $(".search-button");
+    const $btnUpdate = $(".update-button");
+    const $btnRegister = $(".register-button");
+
+    $btnSearch.on("click", function() { /* 도서 검색 */
+        myPageService.searchBookInfo();
+    });
+
+    $btnUpdate.on("click", function() { /* 도서 수정 */
+        let bookDTO = {
+            id: $(".book_id").val(),
+            bookTitle: $(".book-title").val(),
+            bookAuthor: $(".book-author").val(),
+            bookPublisher: $(".book-publisher").val()
+        };
+        myPageService.updateBookInfo(bookDTO);
+    });
+
+    $btnRegister.on("click", function() {
+        let bookDTO = {
+            id: $(".book_id").val(),
+            bookTitle: $(".book-title").val(),
+            bookAuthor: $(".book-author").val(),
+            bookPublisher: $(".book-publisher").val()
+        };
+        myPageService.registerBoonInfo(bookDTO);
+    });
+
+    let myPageService = (function() {
+        function searchBookInfo() {
+            let bookId = $(".book_id").val();
+
+            $.ajax({
+                url: "/books/search",
+                data: {"id" : bookId},
+                success: function(bookDTO) {
+                    renderingBookInfo(bookDTO);
+                }
+            })
+        }
+
+        function updateBookInfo(bookDTO) {
+            $.ajax({
+                url: "/books/modify",
+                type: "post",
+                contentType: 'application/json',
+                data: JSON.stringify(bookDTO),
+                success: function(bookDTO) {
+                    if(bookDTO != undefined) {
+                        renderingBookInfo(bookDTO);
+                        alert("수정되었습니다.");
+                    }
+                }
+            })
+        }
+
+        function registerBoonInfo(bookDTO) {
+            $.ajax({
+                url: "/books/register",
+                type: "post",
+                contentType: 'application/json',
+                data: JSON.stringify(bookDTO),
+                success: function() {
+                    let text = "";
+
+                    alert("등록되었습니다.");
+
+                    text = `
+                            <form action="" method="post">
+                                <div class="first-line">
+                                    <div>제목</div>
+                                    <div>저자</div>
+                                    <div>출판사</div>
+                                </div>
+                                <div class="second-line">
+                                    <div>
+                                        <input type="text" class="book-title">
+                                    </div>
+                                    <div>
+                                        <input type="text" class="book-author">
+                                    </div>
+                                    <div>
+                                        <input type="text" class="book-publisher">
+                                </div>
+                            </form>
+                    `;
+                    $append.empty();
+                    $append.append(text);
+                }
+            })
+        }
+        return {
+            searchBookInfo: searchBookInfo,
+            updateBookInfo: updateBookInfo,
+            registerBoonInfo: registerBoonInfo
+        }
+    })();
+
+    function renderingBookInfo(bookDTO) {
+        let text = "";
+        text = `
+                <form action="" method="post">
+                    <div class="first-line">
+                        <div>제목</div>
+                        <div>저자</div>
+                        <div>출판사</div>
+                    </div>
+                    <div class="second-line">
+                        <div>
+                            <input type="text" class="book-title" value="${bookDTO.bookTitle}">
+                        </div>
+                        <div>
+                            <input type="text" class="book-author" value="${bookDTO.bookAuthor}">
+                        </div>
+                        <div>
+                            <input type="text" class="book-publisher" value="${bookDTO.bookPublisher}">
+                    </div>
+                </form>
+        `;
+        $append.empty();
+        $append.append(text);
+    }
+
+
+</script>
+</html>
