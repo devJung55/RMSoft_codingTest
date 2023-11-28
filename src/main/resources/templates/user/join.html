@@ -6,17 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-input-writeIdentification,
+        .form-input-writePassword {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .check-identification,
+        .joinBtn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .check-identification {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <form action="" name="joinForm" method="post" th:object="${userDTO}">
         <div class="wrap">
-            <input type="type" placeholder="아이디를 입력해주세요." name="userIdentification"
-                   class="form-input-writeIdentification" th:field="*{userIdentification}">
-            <button type="button" class="check-identification">중복확인</button>
-        </div>
-        <div>
-            <input type="password" placeholder="비밀번호를 입력해주세요." name="userPassword"
-                   class="form-input-writePassword" th:field="*{userPassword}">
+            <div class="input-group">
+                <input type="text" placeholder="아이디를 입력해주세요." class="form-input-writeIdentification" th:field="*{userIdentification}">
+                <button type="button" class="check-identification">중복확인</button>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="비밀번호를 입력해주세요." class="form-input-writePassword" th:field="*{userPassword}">
+            </div>
         </div>
         <button type="button" class="joinBtn">회원가입</button>
     </form>
@@ -38,7 +80,7 @@
     });
 
     function checkIdentification() {    /* 아이디 중복검사 ajax 함수 */
-        let userIdentification = $("input[type=type]").val();
+        let userIdentification = $("input[type=text]").val();
 
 
         $.ajax({

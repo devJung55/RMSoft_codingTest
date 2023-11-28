@@ -8,24 +8,37 @@
     <link rel="stylesheet" href="">
     <style>
         body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
         }
 
+        .wrap {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         .content {
-            width: 400px;
-            margin: 0 auto;
-            margin-top: 300px;
-            border: 1px solid;
-            padding: 30px;
+            text-align: center;
         }
 
-        .login {
+        .nav {
             display: flex;
-            margin: 10px 0 10px 0;
+            justify-content: space-between;
         }
 
-        .first-line {
-            margin-right: 20px;
+        .nav button {
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
