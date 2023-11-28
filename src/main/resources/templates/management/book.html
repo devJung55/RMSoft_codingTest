@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서관리</title>
+    <link rel="stylesheet" href="/css/user/join.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 500px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .select-box {
+            margin-bottom: 20px;
+        }
+
+        .select-box > div {
+            margin-bottom: 10px;
+        }
+
+        .select-box input[type="date"],
+        .select-box input[type="text"] {
+            width: calc(70% - 10px);
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .select-box button {
+            width: 30%;
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-box {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+
+        .button-box button {
+            width: 45%;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="content">
+        <div class="select-box">
+            <div>
+                <label>대여일</label>
+                <input type="date" class="loan-date" th:field="*{bookLentLoanDate}" placeholder="대여일">
+            </div>
+            <div>
+                <label>반납일</label>
+                <input type="date" class="return-date" th:field="*{bookLentReturnDate}">
+            </div>
+            <div style="display: flex; margin-left: 53px;">
+                <label style="margin-right: 6px;">대여인</label>
+                <input type="text" class="lenter" th:field="*{userId}" style="width: 278px; margin-right: 5px;">
+                <button type="button" style="width: 57px; height: 30px">검색</button>
+            </div>
+            <div>
+                <label>책번호</label>
+                <input type="text" class="book-id" th:field="*{bookId}">
+            </div>
+        </div>
+        <div class="button-box">
+            <button type="button" class="loan-button">대여</button>
+            <button type="button" class="return-button">반납</button>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+    const $btnLoan = $(".loan-button");
+    const $btnReturn = $(".return-button");
+
+    $btnLoan.on("click", function() {
+
+    });
+
+    $btnReturn.on("click", function() {
+
+    });
+
+    let bookLentService = (function() {
+        function loan() {
+            $.ajax({
+            })
+        }
+
+        function lent() {
+            $.ajax({
+            })
+        }
+
+        return {
+            loan: loan,
+            lent: loent
+        }
+    })();
+</script>
+</html>

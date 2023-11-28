@@ -118,7 +118,7 @@
     const $btnRegister = $(".register-button");
 
     $btnSearch.on("click", function() { /* 도서 검색 */
-        myPageService.searchBookInfo();
+        bookRegisterService.searchBookInfo();
     });
 
     $btnUpdate.on("click", function() { /* 도서 수정 */
@@ -128,7 +128,7 @@
             bookAuthor: $(".book-author").val(),
             bookPublisher: $(".book-publisher").val()
         };
-        myPageService.updateBookInfo(bookDTO);
+        bookRegisterService.updateBookInfo(bookDTO);
     });
 
     $btnRegister.on("click", function() {
@@ -138,10 +138,10 @@
             bookAuthor: $(".book-author").val(),
             bookPublisher: $(".book-publisher").val()
         };
-        myPageService.registerBoonInfo(bookDTO);
+        bookRegisterService.registerBoonInfo(bookDTO);
     });
 
-    let myPageService = (function() {
+    let bookRegisterService = (function() {
         function searchBookInfo() {
             let bookId = $(".book_id").val();
 
