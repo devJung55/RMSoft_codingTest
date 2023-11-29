@@ -27,6 +27,11 @@ public class UserDAO {
     public Long login(UserVO userVO) {
         return userMapper.selectByUserIdAndUserPassword(userVO);
     }
+
+    /* 아이디로 회원정보 검색 */
+    public UserDTO selectByUserIdentification(Long userId) {
+        return new UserDTO(userMapper.selectByUserIdentification(userId));
+    }
 }
 
 

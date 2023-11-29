@@ -18,4 +18,9 @@ public class BookLentService {
         bookLentDAO.bookLentRegister(bookLentDTO);
         bookDAO.updateBookStatus(bookLentDTO.getBookId(), LoanType.CURRNETLYONLOAN);
     }
+
+    /* 도서반납 신청 */
+    public void deleteForReturn(Long userId, Long bookId) {
+        bookLentDAO.deleteForReturn(userId, bookId);
+    }
 }

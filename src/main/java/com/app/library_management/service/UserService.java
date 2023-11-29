@@ -27,4 +27,9 @@ public class UserService {
     public Long login(UserDTO userDTO) {
         return userDAO.login(new UserVO(userDTO));
     }
+
+    /* 아이디로 회원정보 검색 */
+    public UserDTO selectByUserIdentification(Long userId) {
+        return userDAO.selectByUserIdentification(userId);
+    }
 }

@@ -3,7 +3,12 @@
 <mapper namespace="com.app.library_management.mapper.BookLentMapper">
     <insert id="insertBookLent">
         insert into tbl_book_lent
-        (book_lent_return_date, user_id, book_id)
-        values(#{bookLentReturnDate}, #{userId}, #{bookId});
+        (book_lent_loan_date, book_lent_return_date, user_id, book_id)
+        values(#{bookLentLoanDate}, #{bookLentReturnDate}, #{userId}, #{bookId});
     </insert>
+
+    <delete id="deleteForReturn" parameterType="map">
+        delete from tbl_book_lent
+        where user_id = #{userId} and book_id = #{bookId}
+    </delete>
 </mapper>

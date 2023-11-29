@@ -11,12 +11,14 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class UserVO {
     private Long id;
+    private String userName;
     private String userIdentification;
     private String userPassword;
     private String userRegisterDate;
 
     @Builder
     public UserVO(UserDTO userDTO) {
+        this.userName = userDTO.getUserName();
         this.userIdentification = userDTO.getUserIdentification();
         this.userPassword = userDTO.getUserPassword();
     }

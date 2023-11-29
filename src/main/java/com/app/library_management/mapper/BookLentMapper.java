@@ -7,4 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BookLentMapper {
     /* 도서대여 신청 */
     public void insertBookLent(BookLentVO bookLentVO);
+
+    /* 도서반납 신청 */
+    public void deleteForReturn(Long userId, Long bookId);
 }

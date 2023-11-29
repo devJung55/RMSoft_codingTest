@@ -21,21 +21,37 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            margin-bottom: 10px;
         }
 
-        .form-input-writeIdentification,
-        .form-input-writePassword {
-            width: calc(100% - 20px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 5px;
             box-sizing: border-box;
         }
 
-        .check-identification,
+        .check-identification {
+            width: 25%;
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
         .joinBtn {
+            width: 100%;
             padding: 10px 20px;
             background-color: #3498db;
             color: #fff;
@@ -43,20 +59,22 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
-        .check-identification {
-            margin-right: 10px;
-        }
     </style>
 </head>
 <body>
     <form action="" name="joinForm" method="post" th:object="${userDTO}">
         <div class="wrap">
             <div class="input-group">
-                <input type="text" placeholder="아이디를 입력해주세요." class="form-input-writeIdentification" th:field="*{userIdentification}">
+                <label>이름</label>
+                <input type="text" placeholder="이름을 입력해주세요." class="form-input-writeName" th:field="*{userName}">
+            </div>
+            <div class="input-group">
+                <label>아이디</label>
+                <input type="text" style="width: 73%;" placeholder="아이디를 입력해주세요." class="form-input-writeIdentification" th:field="*{userIdentification}">
                 <button type="button" class="check-identification">중복확인</button>
             </div>
             <div class="input-group">
+                <label>비밀번호</label>
                 <input type="password" placeholder="비밀번호를 입력해주세요." class="form-input-writePassword" th:field="*{userPassword}">
             </div>
         </div>
@@ -76,19 +94,22 @@
     });
 
     $checkIdentification.on("click", function() {   /* 중복검사 클릭이벤트*/
-        checkIdentification();
+        let userIdentification = $(".form-input-writeIdentification").val();
+        checkIdentification(userIdentification);
     });
 
-    function checkIdentification() {    /* 아이디 중복검사 ajax 함수 */
-        let userIdentification = $("input[type=text]").val();
-
+    function checkIdentification(userIdentification) {    /* 아이디 중복검사 ajax 함수 */
+        console.log(userIdentification);
 
         $.ajax({
             url: "/users/checkIdentification",
             type: "post",
-            data: {"userIdentification": userIdentification},
+            data: {"userIdentification" : userIdentification},
+            // contentType: 'application/json',
+            // data: JSON.stringify(userIdentification),
             success: function(result) {
                 if(result == 1) {
+
                     globalThis.check = false;
                     alert("중복된 아이디가 존재합니다.");
                 } else {

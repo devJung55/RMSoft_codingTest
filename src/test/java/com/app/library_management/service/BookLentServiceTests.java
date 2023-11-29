@@ -17,6 +17,9 @@ public class BookLentServiceTests {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private UserService userService;
+
     /* 도서대여 신청 시, 도서대여 테이블 insert 및 도서대여 상태 수정 */
     @Test
     public void bookLentServiceTest() {

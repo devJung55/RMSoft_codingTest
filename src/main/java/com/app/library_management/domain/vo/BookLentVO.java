@@ -18,6 +18,7 @@ public class BookLentVO {
 
     @Builder
     public BookLentVO(BookLentDTO bookLentDTO){
+        this.bookLentLoanDate = bookLentDTO.getBookLentLoanDate();
         this.bookLentReturnDate = bookLentDTO.getBookLentReturnDate();
         this.userId = bookLentDTO.getUserId();
         this.bookId = bookLentDTO.getBookId();

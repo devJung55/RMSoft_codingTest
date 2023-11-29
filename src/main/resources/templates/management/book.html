@@ -21,6 +21,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .content {
@@ -67,12 +68,66 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+
+        .module-wrap {
+            display: flex;
+            justify-content: space-around;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .module {
+            background: #fff;
+            border: 1px solid;
+            padding: 30px;
+            width: 45%;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .module div {
+            margin-bottom: 10px;
+        }
+
+        .module label {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .module input[type="text"] {
+            width: calc(70% - 10px);
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .module button {
+            width: 30%;
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        span.close {
+            position: absolute;
+            right: 0px;
+            top: -8px;
+            font-weight: bold;
+            font-size: 22px;
+        }
     </style>
 </head>
 <body>
 <div class="wrap">
+    <div class="module-wrap">
+        <div class="module" style="display: none"></div>
+    </div>
     <div class="content">
-        <div class="select-box">
+        <div class="select-box" th:object="${bookLentDTO}">
             <div>
                 <label>대여일</label>
                 <input type="date" class="loan-date" th:field="*{bookLentLoanDate}" placeholder="대여일">
@@ -84,7 +139,7 @@
             <div style="display: flex; margin-left: 53px;">
                 <label style="margin-right: 6px;">대여인</label>
                 <input type="text" class="lenter" th:field="*{userId}" style="width: 278px; margin-right: 5px;">
-                <button type="button" style="width: 57px; height: 30px">검색</button>
+                <button type="button" class="search" style="width: 57px; height: 30px">검색</button>
             </div>
             <div>
                 <label>책번호</label>
@@ -102,29 +157,98 @@
 <script>
     const $btnLoan = $(".loan-button");
     const $btnReturn = $(".return-button");
+    const $search = $(".search");
+    const $close = $(".close");
+    const $module = $(".module")
 
     $btnLoan.on("click", function() {
-
+        let bookLentDTO = {
+            bookLentLoanDate: $(".loan-date").val(),
+            bookLentReturnDate: $(".return-date").val(),
+            userId: $(".lenter").val(),
+            bookId: $(".book-id").val()
+        }
+        bookLentService.lent(bookLentDTO);
     });
 
     $btnReturn.on("click", function() {
+        let returnInfo = {
+            userId: $(".lenter").val(),
+            bookId: $(".book-id").val()
+        }
+        bookLentService.returnBook(returnInfo);
+    });
 
+    $search.on("click", function() {
+        bookLentService.searchUserInfo($(".lenter").val());
+        $module.css("display", "flex");
+    });
+
+    $module.on("click", ".close", function() {
+        $module.css("display", "none");
     });
 
     let bookLentService = (function() {
-        function loan() {
+        function searchUserInfo(userId) {
             $.ajax({
+                url: "/users/searchUserInfo",
+                type: "post",
+                data: {"userId": userId},
+                success: function(userDTO) {
+                    let text = "";
+                    text = `
+                        <span class="close">X</span>
+                        <div>
+                            <label>회원번호</label>
+                            <input type="text" value="${userDTO.id}" readonly>
+                        </div>
+                        <div>
+                            <label>이름</label>
+                            <input type="text" value="${userDTO.userName}" readonly>
+                        </div>
+                        <div>
+                            <label>아이디</label>
+                            <input type="text" value="${userDTO.userIdentification}" readonly>
+                        </div>
+                    `;
+                    $module.empty();
+                    $module.append(text);
+
+                    console.log(userDTO);
+                }
             })
         }
 
-        function lent() {
+        function lent(bookLentDTO) {
             $.ajax({
+                url: "/bookLents/lent",
+                type: "post",
+                contentType: 'application/json',
+                data: JSON.stringify(bookLentDTO),
+                success: function() {
+                    alert("대여신청이 완료되었습니다.");
+                    location.reload();
+                }
+            })
+        }
+
+        function returnBook(returnInfo) {
+            $.ajax({
+                url: "/bookLents/return",
+                type: "post",
+                contentType: 'application/json',
+                data: JSON.stringify(returnInfo),
+                success: function() {
+                    alert("반납신청이 완료되었습니다.");
+                    location.reload();
+                }
             })
         }
 
         return {
-            loan: loan,
-            lent: loent
+            searchUserInfo: searchUserInfo,
+            lent: lent,
+            returnBook: returnBook
         }
     })();
 </script>

@@ -15,4 +15,7 @@ public interface UserMapper {
 
     /* 로그인 */
     public Long selectByUserIdAndUserPassword(UserVO userVO);
+
+    /* 아이디로 회원정보 검색 */
+    public UserVO selectByUserIdentification(Long userId);
 }
